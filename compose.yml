@@ -1,5 +1,24 @@
+version: '1'
 services:
-  web:
-    build: .
+  nginx:
+    environment:
+      NGINX_PORT: 80
+    build: ./config/nginx/
     ports:
-      - "3000:3000"
+      - "8080:80"
+    links:
+      - "api_1:api1"
+      - "api_2:api2"
+    depends_on:
+      - api_1
+      - api_2
+  api_1:
+    environment:
+        API_PORT: 8000
+    build:
+      context: .
+  api_2:
+    environment:
+      API_PORT: 8001
+    build:
+      context: .
