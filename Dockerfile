@@ -9,6 +9,6 @@ RUN go mod download && go mod verify
 COPY src/ .
 RUN go build -v -o /usr/local/bin/oci-back ./...
 
-EXPOSE 3000
+EXPOSE ${API_PORT}
 
 CMD ["oci-back"]
