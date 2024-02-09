@@ -36,6 +36,7 @@ CREATE TYPE rede_escola AS ENUM ('particular', 'publica');
 CREATE TABLE IF NOT EXISTS usuario (
   id_usuario INT GENERATED ALWAYS AS IDENTITY,
   cargo cargo,
+  ultimo_login TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY (id_usuario),
 );
 
@@ -45,7 +46,7 @@ CREATE TABLE IF NOT EXISTS petiano (
   login VARCHAR(32) NOT NULL,
   hash_senha BYTEA NOT NULL,
   PRIMARY KEY (id_petiano),
-  CONSTRAINT fk_petiano_global FOREIGN KEY (id_global) REFERENCES usuario (id_usuario),
+  CONSTRAINT fk_petiano_global FOREIGN KEY (id_global) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
   UNIQUE (id_global),
   UNIQUE (login),
 );
@@ -62,7 +63,7 @@ CREATE TABLE IF NOT EXISTS uluno (
   data_nasc DATE NOT NULL,
   perfis_acess perfil_acess[] NOT NULL,
   PRIMARY KEY (id_aluno),
-  CONSTRAINT fk_aluno_global FOREIGN KEY (id_global) REFERENCES usuario (id_usuario),
+  CONSTRAINT fk_aluno_global FOREIGN KEY (id_global) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
   CONSTRAINT fk_aluno_escola FOREIGN KEY (id_escola) REFERENCES escola (id_escola),
   UNIQUE (id_global),
   UNIQUE (cpf),
@@ -82,8 +83,8 @@ CREATE TABLE IF NOT EXISTS escola (
   telefone_coordenador VARCHAR(13),
   tipo_escola rede_escola NOT NULL,
   PRIMARY KEY (id_escola),
-  CONSTRAINT fk_ecola_global FOREIGN KEY (id_global) REFERENCES usuario (id_usuario),
-  CONSTRAINT fk_ecola_endereco FOREIGN KEY (id_endereco) REFERENCES endereco (id_endereco),
+  CONSTRAINT fk_ecola_global FOREIGN KEY (id_global) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
+  CONSTRAINT fk_ecola_endereco FOREIGN KEY (id_endereco) REFERENCES endereco (id_endereco) ON DELETE CASCADE,
   UNIQUE (id_global),
   UNIQUE(cod_inep),
 );
