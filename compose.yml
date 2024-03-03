@@ -17,11 +17,17 @@ services:
         API_PORT: 8000
     build:
       context: .
+    depends_on:
+      db:
+        condition: service_healthy
   api_2:
     environment:
       API_PORT: 8001
     build:
       context: .
+    depends_on:
+      db:
+        condition: service_healthy
   db:
     build: ./db/
     restart: always
