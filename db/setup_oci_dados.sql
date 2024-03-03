@@ -1,11 +1,6 @@
--- users
-CREATE USER petiano_user;
-
-CREATE USER aluno_user;
-
-CREATE USER escola_user;
-
-CREATE USER anon_user;
+-- create databases
+CREATE DATABASE IF NOT EXISTS oci_dados;
+USE oci_dados;
 
 -- tipos de dado
 CREATE TYPE cargo AS ENUM ('petiano', 'aluno', 'escola');
