@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS petiano (
   UNIQUE (login),
 );
 
-CREATE TABLE IF NOT EXISTS uluno (
+CREATE TABLE IF NOT EXISTS aluno (
   id_aluno INT GENERATED ALWAYS AS IDENTITY,
   id_global INT NOT NULL,
   id_escola INT NOT NULL, 
