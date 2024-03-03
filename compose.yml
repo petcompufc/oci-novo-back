@@ -31,6 +31,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
       LANG: "pt_BR.utf8"
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --locale-provider=icu --icu-locale=pt-BR"
+      TZ: 'Brazil/East'
+      PGTZ: 'Brazil/East'
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U pet_admin"]
       interval: 1s
