@@ -35,6 +35,7 @@ CREATE TYPE oci_fase AS ENUM ('fase 1', 'fase 2', 'fase 3');
 -- tabela dos usuarios
 CREATE TABLE IF NOT EXISTS usuario (
   id_usuario INT GENERATED ALWAYS AS IDENTITY,
+  hash_senha BYTEA NOT NULL,
   cargo cargo,
   ultimo_login TIMESTAMP WITH TIME ZONE,
   PRIMARY KEY (id_usuario),
@@ -44,7 +45,6 @@ CREATE TABLE IF NOT EXISTS petiano (
   id_petiano INT GENERATED ALWAYS AS IDENTITY,
   id_global INT NOT NULL,
   login VARCHAR(32) NOT NULL,
-  hash_senha BYTEA NOT NULL,
   PRIMARY KEY (id_petiano),
   CONSTRAINT fk_petiano_global FOREIGN KEY (id_global) REFERENCES usuario (id_usuario) ON DELETE CASCADE,
   UNIQUE (id_global),
@@ -57,7 +57,6 @@ CREATE TABLE IF NOT EXISTS aluno (
   id_escola INT NOT NULL, 
   cpf CHAR(14) NOT NULL,
   nome VARCHAR(63),
-  hash_senha BYTEA NOT NULL,
   serie_atual serie NOT NULL,
   genero genero NOT NULL,
   data_nasc DATE NOT NULL,
@@ -72,7 +71,6 @@ CREATE TABLE IF NOT EXISTS aluno (
 CREATE TABLE IF NOT EXISTS escola (
   id_escola INT GENERATED ALWAYS AS IDENTITY,
   id_global INT NOT NULL,
-  hash_senha BYTEA NOT NULL,
   cod_inep CHAR(12) NOT NULL,
   nome VARCHAR(63) NOT NULL,
   id_endereco INT NOT NULL,
