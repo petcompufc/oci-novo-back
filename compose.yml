@@ -1,4 +1,5 @@
-version: '1'
+version: "2.2"
+
 services:
   nginx:
     environment:
@@ -32,15 +33,17 @@ services:
     build: ./db/
     restart: always
     environment:
-      POSTGRES_USER: "pet_admin"
-      POSTGRES_PASSWORD: "example"
+      POSTGRES_USER: $DB_ADMIN_USER
+      POSTGRES_PASSWORD: $DB_ADMIN_PWD
       POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
       LANG: "pt_BR.utf8"
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --locale-provider=icu --icu-locale=pt-BR"
       TZ: 'Brazil/East'
       PGTZ: 'Brazil/East'
+    env_file:
+        - .env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U pet_admin"]
+      test: ["CMD-SHELL", "pg_isready -U $DB_ADMIN_USER"]
       interval: 1s
       timeout: 5s
       retries: 10
