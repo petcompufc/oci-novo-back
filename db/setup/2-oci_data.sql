@@ -114,8 +114,8 @@ CREATE TABLE IF NOT EXISTS inscricao_aluno (
   id_aluno INT NOT NULL,
   id_edicao INT NOT NULL,
   modalidade oci_modalidade NOT NULL,
-  CONSTRAINT fk_aluno_inscrito FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno),
-  CONSTRAINT fk_inscricao_edicao FOREIGN KEY (id_edicao) REFERENCES edicao (id_edicao),
+  CONSTRAINT fk_aluno_inscricao FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno),
+  CONSTRAINT fk_edicao_inscricao FOREIGN KEY (id_edicao) REFERENCES edicao (id_edicao),
   PRIMARY KEY (id_aluno, id_edicao)
 );
 
