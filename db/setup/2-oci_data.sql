@@ -99,30 +99,7 @@ CREATE TABLE IF NOT EXISTS aluno (
   UNIQUE (cpf)
 );
 
--- dados da edicao atual
-CREATE TABLE IF NOT EXISTS alunos_inscritos (
-  id_aluno INT,
-  modalidade oci_modalidade NOT NULL,
-  CONSTRAINT fk_aluno_inscrito FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno),
-  PRIMARY KEY (id_aluno)
-);
-
-CREATE TABLE IF NOT EXISTS escolas_inscritas (
-  id_escola INT,
-  valor_pago BIGINT NOT NULL DEFAULT 0, 
-  CONSTRAINT fk_escola_pagante FOREIGN KEY (id_escola) REFERENCES escola (id_escola),
-  PRIMARY KEY (id_escola)
-);
-
-CREATE TABLE IF NOT EXISTS resultados_alunos (
-  id_aluno INT NOT NULL,
-  fase oci_fase NOT NULL,
-  acertos BOOLEAN[],
-  CONSTRAINT fk_resultado_aluno FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno),
-  PRIMARY KEY (id_aluno, fase)
-);
-
--- dados persistentes
+-- tabelas da olimpiada
 CREATE TABLE IF NOT EXISTS edicao (
   id_edicao INT GENERATED ALWAYS AS IDENTITY,
   edicao VARCHAR(7),
@@ -133,17 +110,32 @@ CREATE TABLE IF NOT EXISTS edicao (
   UNIQUE(edicao)
 );
 
-CREATE TABLE IF NOT EXISTS fase (
+CREATE TABLE IF NOT EXISTS inscricao_aluno (
+  id_aluno INT NOT NULL,
   id_edicao INT NOT NULL,
+  modalidade oci_modalidade NOT NULL,
+  CONSTRAINT fk_aluno_inscrito FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno),
+  CONSTRAINT fk_inscricao_edicao FOREIGN KEY (id_edicao) REFERENCES edicao (id_edicao),
+  PRIMARY KEY (id_aluno, id_edicao)
+);
+
+CREATE TABLE IF NOT EXISTS aluno_fase (
+  id_edicao INT NOT NULL,
+  id_aluno INT NOT NULL,
   fase oci_fase NOT NULL,
-  qtd_pub_iniA INT NOT NULL DEFAULT 0,
-  qtd_par_iniA INT NOT NULL DEFAULT 0,
-  qtd_pub_iniB INT NOT NULL DEFAULT 0,
-  qtd_par_iniB INT NOT NULL DEFAULT 0,
-  qtd_pub_prog INT NOT NULL DEFAULT 0,
-  qtd_par_prog INT NOT NULL DEFAULT 0,
-  PRIMARY KEY (id_edicao, fase),
-  CONSTRAINT fk_edicao_fase FOREIGN KEY (id_edicao) REFERENCES edicao (id_edicao)
+  acertos BOOLEAN[] DEFAULT NULL,
+  CONSTRAINT fk_aluno_fase FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno),
+  CONSTRAINT fk_edicao_fase FOREIGN KEY (id_edicao) REFERENCES edicao (id_edicao),
+  PRIMARY KEY(id_edicao, id_aluno)
+);
+
+CREATE TABLE IF NOT EXISTS inscricao_escola (
+  id_edicao INT NOT NULL,
+  id_escola INT NOT NULL,
+  valor_pago BIGINT NOT NULL DEFAULT 0, 
+  CONSTRAINT fk_escola_pagante FOREIGN KEY (id_escola) REFERENCES escola (id_escola),
+  CONSTRAINT fk_edicao_escola FOREIGN KEY (id_edicao) REFERENCES edicao (id_edicao),
+  PRIMARY KEY (id_escola, id_edicao)
 );
 
 -- oci_dados roles
@@ -165,10 +157,9 @@ GRANT ver_petiano TO ver_usuario;
 
 CREATE ROLE ver_metadados;
 GRANT SELECT ON edicao TO ver_metadados;
-GRANT SELECT ON fase TO ver_metadados;
-GRANT SELECT ON alunos_inscritos TO ver_metadados;
-GRANT SELECT ON escolas_inscritas TO ver_metadados;
-GRANT SELECT ON resultados_alunos TO ver_metadados;
+GRANT SELECT ON inscricao_aluno TO ver_metadados;
+GRANT SELECT ON aluno_fase TO ver_metadados;
+GRANT SELECT ON inscricao_escola TO ver_metadados;
 
 CREATE ROLE gerenciar_aluno;
 GRANT UPDATE ON aluno TO gerenciar_aluno;
@@ -179,15 +170,15 @@ GRANT UPDATE ON endereco TO gerenciar_escola;
 
 CREATE ROLE gerenciar_metadados;
 GRANT UPDATE ON edicao TO gerenciar_metadados;
-GRANT UPDATE ON alunos_inscritos TO gerenciar_metadados;
-GRANT UPDATE ON escolas_inscritas TO gerenciar_metadados;
-GRANT UPDATE ON resultados_alunos TO gerenciar_metadados;
+GRANT UPDATE ON inscricao_aluno TO gerenciar_metadados;
+GRANT UPDATE ON inscricao_escola TO gerenciar_metadados;
+GRANT UPDATE ON aluno_fase TO gerenciar_metadados;
 
 CREATE ROLE inscrever_aluno;
-GRANT INSERT ON alunos_inscritos TO inscrever_aluno;
+GRANT INSERT ON inscricao_aluno TO inscrever_aluno;
 
 CREATE ROLE inscrever_escola;
-GRANT INSERT ON escolas_inscritas TO inscrever_escola;
+GRANT INSERT ON inscricao_escola TO inscrever_escola;
 
 CREATE ROLE adicionar_usuario;
 GRANT INSERT ON usuario TO adicionar_usuario;
@@ -195,8 +186,9 @@ GRANT INSERT ON petiano TO adicionar_usuario;
 GRANT INSERT ON aluno TO adicionar_usuario;
 GRANT INSERT ON escola TO adicionar_usuario;
 
-CREATE ROLE inserir_resultados;
-GRANT INSERT ON resultados_alunos TO inserir_resultados;
+CREATE ROLE inserir_metadados;
+GRANT INSERT ON edicao TO ver_metadados;
+GRANT INSERT ON aluno_fase TO ver_metadados;
 
 -- atribuir para os usuários
 GRANT ver_usuario TO api_user;
@@ -213,5 +205,4 @@ GRANT inscrever_escola TO escola_user;
 
 GRANT ver_usuario TO petiano_user;
 GRANT ver_metadados TO petiano_user;
-GRANT gerenciar_metadados TO petiano_user;
-GRANT inserir_resultados TO petiano_user;
+GRANT inserir_metadados TO petiano_user;
