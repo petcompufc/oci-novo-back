@@ -137,6 +137,12 @@ CREATE TABLE IF NOT EXISTS inscricao_escola (
   PRIMARY KEY (id_escola, id_edicao)
 );
 
+-- tabelas de estado
+CREATE TABLE IF NOT EXISTS escola_para_analisar (
+  id_escola INT NOT NULL,
+  CONSTRAINT fk_analisar_escola FOREIGN KEY (id_escola) REFERENCES escola (id_escola)
+);
+
 -- oci_dados roles
 CREATE ROLE ver_aluno;
 GRANT SELECT ON aluno TO ver_aluno;
@@ -159,6 +165,7 @@ GRANT SELECT ON edicao TO ver_metadados;
 GRANT SELECT ON inscricao_aluno TO ver_metadados;
 GRANT SELECT ON aluno_fase TO ver_metadados;
 GRANT SELECT ON inscricao_escola TO ver_metadados;
+GRANT SELECT ON escola_para_analisar TO ver_metadados;
 
 CREATE ROLE gerenciar_aluno;
 GRANT UPDATE ON aluno TO gerenciar_aluno;
@@ -184,10 +191,15 @@ GRANT INSERT ON usuario TO adicionar_usuario;
 GRANT INSERT ON petiano TO adicionar_usuario;
 GRANT INSERT ON aluno TO adicionar_usuario;
 GRANT INSERT ON escola TO adicionar_usuario;
+GRANT INSERT ON escola_para_analisar TO adicionar_usuario;
 
 CREATE ROLE inserir_metadados;
 GRANT INSERT ON edicao TO ver_metadados;
 GRANT INSERT ON aluno_fase TO ver_metadados;
+
+CREATE ROLE moderar_cadastro_escola;
+GRANT DELETE ON escola_para_analisar TO moderar_cadastro_escola;
+GRANT DELETE ON escola TO moderar_cadastro_escola;
 
 -- atribuir para os usuários
 GRANT ver_usuario TO api_user;
@@ -205,3 +217,4 @@ GRANT inscrever_escola TO escola_user;
 GRANT ver_usuario TO petiano_user;
 GRANT ver_metadados TO petiano_user;
 GRANT inserir_metadados TO petiano_user;
+GRANT moderar_cadastro_escola TO petiano_user;
