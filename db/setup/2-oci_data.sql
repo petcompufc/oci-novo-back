@@ -105,7 +105,6 @@ CREATE TABLE IF NOT EXISTS edicao (
   edicao VARCHAR(7),
   abertura_das_inscricoes DATE NOT NULL,
   meta_arrecadacao BIGINT NOT NULL DEFAULT 0,
-  arrecadacao BIGINT NOT NULL DEFAULT 0,
   PRIMARY KEY (id_edicao),
   UNIQUE(edicao)
 );
