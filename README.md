@@ -38,7 +38,7 @@ Para iniciar a aplicação em, execute o comando:
 ```bash
 $ docker compose up
 ```
-psql -U username -d myDataBase -a -f myInsertFile
+
 ou, caso queira rodar em background:
 
 ```bash
