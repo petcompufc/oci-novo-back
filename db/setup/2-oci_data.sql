@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS aluno_fase (
   acertos BOOLEAN[] DEFAULT NULL,
   CONSTRAINT fk_aluno_fase FOREIGN KEY (id_aluno) REFERENCES aluno (id_aluno),
   CONSTRAINT fk_edicao_fase FOREIGN KEY (id_edicao) REFERENCES edicao (id_edicao),
-  PRIMARY KEY(id_edicao, id_aluno)
+  PRIMARY KEY(id_edicao, id_aluno, fase)
 );
 
 CREATE TABLE IF NOT EXISTS inscricao_escola (
