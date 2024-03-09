@@ -51,3 +51,6 @@ No momento apenas uma menssagem de _"hello world"_ é dada como resposta na port
 ```bash
 $ curl localhost:8080
 ```
+
+O banco será disponibilizado na porta `5050`, o acesso pode ser feito a através
+da ferramenta CLI `psql`.
