@@ -1,3 +1,5 @@
+\c oci_dados;
+
 --inserindo valores na tabela usuário
 INSERT INTO usuario (hash_senha, cargo, ultimo_login)
 VALUES
