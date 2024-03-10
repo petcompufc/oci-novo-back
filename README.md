@@ -52,5 +52,10 @@ No momento apenas uma menssagem de _"hello world"_ é dada como resposta na port
 $ curl localhost:8080
 ```
 
-O banco será disponibilizado na porta `5050`, o acesso pode ser feito a através
-da ferramenta CLI `psql`.
+O banco será disponibilizado apenas dentro do container docker `db`, desse
+modo se necessário entrar diretamente pelo psql o seguinte comando deve ser
+executado:
+
+```bash
+$ docker exec -it oci-novo-back-db-1 psql -U <usuario> -h localhost
+```

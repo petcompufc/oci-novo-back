@@ -51,8 +51,6 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
-    ports:
-      - "5050:5432"
     volumes:
       - ./db/setup:/docker-entrypoint-initdb.d
       - pgdata:/var/lib/postgresql/data
