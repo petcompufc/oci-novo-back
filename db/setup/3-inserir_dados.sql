@@ -91,9 +91,12 @@ VALUES
 --inserindo valores nas tabelas da olimpíada
 INSERT INTO edicao (edicao, abertura_das_inscricoes, meta_arrecadacao)
 VALUES
-	('2023', '2023-04-12', 16000),
-	('2022', '2022-06-10', 16000),
-	('2020', '2020-06-11', 16000);
+	('2018', '2020-06-11', 16000),
+	('2019', '2022-06-10', 8000),
+	('2020', '2020-06-11', 12520),
+	('2021', '2023-04-12', 10000),
+	('2022', '2022-06-10', 13587),
+	('2023', '2023-04-12', 16000);
 
 INSERT INTO inscricao_aluno (id_aluno, id_edicao, modalidade)
 VALUES
@@ -103,49 +106,141 @@ VALUES
 	(1, 1, 'iniciacao A'),
 	(2, 1, 'iniciacao B'),
 	(2, 2, 'iniciacao B'),
-	(2, 3, 'iniciacao A');
+	(2, 3, 'iniciacao A'),
+	(4, 6, 'iniciacao A'),
+	(5, 6, 'iniciacao B'),
+	(5, 5, 'iniciacao B'),
+	(5, 4, 'iniciacao A'),
+	(5, 3, 'iniciacao A'),
+	(6, 6, 'programacao'),
+	(6, 4, 'programacao'),
+	(6, 2, 'iniciacao B'),
+	(7, 6, 'iniciacao B'),
+	(7, 5, 'iniciacao A'),
+	(8, 6, 'iniciacao B'),
+	(8, 5, 'iniciacao B'),
+	(8, 4, 'iniciacao A'),
+	(8, 3, 'iniciacao A'),
+	(9, 6, 'programacao'),
+	(9, 4, 'programacao'),
+	(9, 1, 'iniciacao A'),
+	(10, 6, 'iniciacao A'),
+	(10, 5, 'iniciacao A'),
+	(11, 6, 'iniciacao B'),
+	(11, 5, 'iniciacao B'),
+	(11, 4, 'iniciacao A'),
+	(11, 3, 'iniciacao A'),
+	(12, 6, 'programacao'),
+	(12, 5, 'programacao'),
+	(12, 4, 'programacao'),
+	(12, 3, 'iniciacao B'),
+	(12, 2, 'iniciacao B'),
+	(12, 1, 'iniciacao A'),
+	(13, 6, 'iniciacao A'),
+	(14, 6, 'iniciacao B'),
+	(14, 5, 'iniciacao A'),
+	(15, 6, 'programacao'),
+	(15, 5, 'programacao'),
+	(15, 4, 'programacao'),
+	(15, 3, 'iniciacao B'),
+	(15, 2, 'iniciacao B'),
+	(15, 1, 'iniciacao A');
 
 INSERT INTO aluno_fase (id_edicao, id_aluno, fase, acertos)
-VALUES 
-	-- edição 2023
+VALUES
 	(1, 3, 'fase 1', ARRAY[true, false, true]),
 	(1, 3, 'fase 2', ARRAY[true, true, true]),
 	(1, 3, 'fase 3', ARRAY[true, true, false]),
-
-	-- edição 2022
 	(2, 3, 'fase 1', ARRAY[true, false, true]),
 	(2, 3, 'fase 2', ARRAY[true, true, true]),
 	(2, 3, 'fase 3', ARRAY[true, true, false]),
-
-	-- edição 2020
 	(3, 3, 'fase 1', ARRAY[true, false, true]),
 	(3, 3, 'fase 2', ARRAY[true, true, true]),
-	
-	-- aluno 1
 	(1, 1, 'fase 1', ARRAY[true, true, true]),
 	(1, 1, 'fase 2', ARRAY[false, true, true]),
-	
-	-- aluno 2 - iniciação - teste (não participam fase 3)
 	(1, 2, 'fase 1', ARRAY[true, true, true]),
 	(1, 2, 'fase 2', ARRAY[false, true, true]),
-	(1, 2, 'fase 3', ARRAY[false, false, false]);
+	(1, 6, 'fase 1', ARRAY[true, false, true]),
+	(1, 6, 'fase 2', ARRAY[true, true, true]),
+	(1, 6, 'fase 3', ARRAY[true, true, false]),
+	(2, 6, 'fase 1', ARRAY[true, false, true]),
+	(2, 6, 'fase 2', ARRAY[true, true, true]),
+	(2, 6, 'fase 3', ARRAY[true, true, false]),
+	(3, 6, 'fase 1', ARRAY[true, false, true]),
+	(3, 6, 'fase 2', ARRAY[true, true, true]),
+	(1, 4, 'fase 1', ARRAY[true, true, true]),
+	(1, 4, 'fase 2', ARRAY[false, true, true]),
+	(1, 5, 'fase 1', ARRAY[true, true, true]),
+	(1, 5, 'fase 2', ARRAY[false, true, true]),
+	(1, 9, 'fase 1', ARRAY[true, false, true]),
+	(1, 9, 'fase 2', ARRAY[true, true, true]),
+	(1, 9, 'fase 3', ARRAY[true, true, false]),
+	(2, 9, 'fase 1', ARRAY[true, false, true]),
+	(2, 9, 'fase 2', ARRAY[true, true, true]),
+	(2, 9, 'fase 3', ARRAY[true, true, false]),
+	(3, 9, 'fase 1', ARRAY[true, false, true]),
+	(3, 9, 'fase 2', ARRAY[true, true, true]),
+	(1, 7, 'fase 1', ARRAY[true, true, true]),
+	(1, 7, 'fase 2', ARRAY[false, true, true]),
+	(1, 8, 'fase 1', ARRAY[true, true, true]),
+	(1, 8, 'fase 2', ARRAY[false, true, true]),
+	(1, 12, 'fase 1', ARRAY[true, false, true]),
+	(1, 12, 'fase 2', ARRAY[true, true, true]),
+	(1, 12, 'fase 3', ARRAY[true, true, false]),
+	(2, 12, 'fase 1', ARRAY[true, false, true]),
+	(2, 12, 'fase 2', ARRAY[true, true, true]),
+	(3, 12, 'fase 1', ARRAY[true, false, true]),
+	(3, 12, 'fase 2', ARRAY[true, true, true]),
+	(3, 12, 'fase 3', ARRAY[true, true, false]),
+	(1, 10, 'fase 1', ARRAY[true, true, true]),
+	(1, 10, 'fase 2', ARRAY[false, true, true]),
+	(1, 11, 'fase 1', ARRAY[true, true, true]),
+	(1, 11, 'fase 2', ARRAY[false, true, true]),
+	(1, 15, 'fase 1', ARRAY[true, false, true]),
+	(1, 15, 'fase 2', ARRAY[true, true, true]),
+	(1, 15, 'fase 3', ARRAY[true, true, false]),
+	(2, 15, 'fase 1', ARRAY[true, false, true]),
+	(2, 15, 'fase 2', ARRAY[true, true, true]),
+	(3, 15, 'fase 1', ARRAY[true, false, true]),
+	(3, 15, 'fase 2', ARRAY[true, true, true]),
+	(3, 15, 'fase 3', ARRAY[true, true, false]),
+	(1, 13, 'fase 1', ARRAY[true, true, true]),
+	(1, 13, 'fase 2', ARRAY[false, true, true]),
+	(1, 14, 'fase 1', ARRAY[true, true, true]);
 
 INSERT INTO inscricao_escola (id_edicao, id_escola, valor_pago)
 VALUES
-	(1, 2, 2000),
 	(1, 1, 0),
-	(1, 3, 0),
-
-	(2, 2, 3500),
+	(1, 2, 2000),
+	(1, 3, 200),
+	(1, 4, 5000),
+	(1, 5, 0),
 	(2, 1, 0),
-	(2, 3, 0),
-
-	(3, 2, 500),
+	(2, 2, 3500),
+	(2, 4, 500),
 	(3, 1, 0),
-	(3, 3, 0);
+	(3, 2, 7000),
+	(3, 3, 1000),
+	(3, 4, 1000),
+	(3, 5, 0),
+	(4, 1, 0),
+	(4, 2, 2000),
+	(4, 3, 200),
+	(4, 4, 5000),
+	(4, 5, 0),
+	(5, 1, 0),
+	(5, 2, 3500),
+	(5, 4, 500),
+	(6, 1, 0),
+	(6, 2, 7000),
+	(6, 3, 1000),
+	(6, 4, 1000),
+	(6, 5, 0);
 
 INSERT INTO escola_para_analisar (id_escola)
 VALUES 
 	(1),
 	(2),
-	(3);
+	(3),
+	(4),
+	(5);
