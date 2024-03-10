@@ -59,8 +59,3 @@ services:
 
 volumes:
   pgdata:
-    driver: local
-    driver_opts:
-      o: "size=4g,uid=1000"
-      device: tmpfs
-      type: tmpfs
