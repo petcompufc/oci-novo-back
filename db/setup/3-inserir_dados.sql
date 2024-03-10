@@ -36,9 +36,9 @@ VALUES
 --inserindo valores na tabela escola
 INSERT INTO escola (id_global, cod_inep, nome, id_endereco, email, telefone, nome_coordenador, email_coordenador, telefone_coordenador, tipo_escola)
 VALUES
-	(7, '123456789012', 'Escola1', 1, 'escola1@example.com', '(11)1234-5678', 'coordenador1', 'coordenador1@example.com', '(11)9876-5432', 'publica'),
-  	(8, '987654321098', 'Escola2', 2, 'escola2@example.com', '(21)9876-5432', 'coordenador2', 'coordenador2@example.com', '(21)1234-5678', 'particular'),
-  	(9, '543210987654', 'Escola3', 3, 'escola3@example.com', '(41)1234-5678', 'coordenador3', 'coordenador3@example.com', '(41)9876-5432', 'publica');
+	(7, '123456789012', 'Escola1', 1, 'escola1@example.com', '11 91234-5678', 'coordenador1', 'coordenador1@example.com', '11 99876-5432', 'publica'),
+  	(8, '987654321098', 'Escola2', 2, 'escola2@example.com', '21 99876-5432', 'coordenador2', 'coordenador2@example.com', '21 91234-5678', 'particular'),
+  	(9, '543210987654', 'Escola3', 3, 'escola3@example.com', '41 91234-5678', 'coordenador3', 'coordenador3@example.com', '41 99876-5432', 'publica');
 
 --inserindo valores na tabela aluno
 INSERT INTO aluno (id_global, id_escola, cpf, nome, serie_atual, genero, data_nasc, perfis_acess)
