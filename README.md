@@ -59,3 +59,11 @@ executado:
 ```bash
 $ docker exec -it oci-novo-back-db-1 psql -U <usuario> -h localhost
 ```
+
+O armazenamento do banco é armazenado em um volume docker de forma persistente
+e, portanto, para que os arquivos de inicilização do banco em `db/setup` sejam
+executados você deve excluir o volume atual do banco:
+
+```bash
+$ docker volume rm oci-novo-back_pgdata
+```
