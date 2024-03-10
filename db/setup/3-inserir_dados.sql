@@ -43,12 +43,12 @@ INSERT INTO petiano (id_global, login)
 VALUES
 	(1, 'login_petiano1'),
 	(2, 'login_petiano2'),
-	(3, 'login_petiano1'),
-	(4, 'login_petiano1'),
-	(5, 'login_petiano2'),
-	(6, 'login_petiano1'),
-	(7, 'login_petiano2'),
-	(8, 'login_petiano3');
+	(3, 'login_petiano3'),
+	(4, 'login_petiano4'),
+	(5, 'login_petiano5'),
+	(6, 'login_petiano6'),
+	(7, 'login_petiano7'),
+	(8, 'login_petiano8');
 	
 --inserindo valores na tabela endereco
 INSERT INTO endereco (cep, bairro, cidade, estado, rua, numero, complemento)
@@ -71,21 +71,21 @@ VALUES
 --inserindo valores na tabela aluno
 INSERT INTO aluno (id_global, id_escola, cpf, nome, serie_atual, genero, data_nasc, perfis_acess)
 VALUES
-  	(1, 9, '12345678901', 'Aluno1', '6f', 'masculino', '2013-05-15', ARRAY['fisica']::perfil_acess[]),
-  	(2, 10, '98765432109', 'Aluno2', '9f', 'feminino', '2009-08-20', ARRAY['sensorial']::perfil_acess[]),
-  	(3, 11, '45678901234', 'Aluno3', '3m', 'masculino', '2006-03-10', ARRAY['psiquiatrica']::perfil_acess[]),
-	(4, 12, '01234567890', 'Aluno4', '6f', 'masculino', '2013-11-13', ARRAY['cognitiva/intelectual']::perfil_acess[]),
-  	(5, 13, '34567890123', 'Aluno5', '9f', 'feminino', '2010-02-21', ARRAY['invisivel']::perfil_acess[]),
-  	(6, 14, '78901234567', 'Aluno6', '3m', 'masculino', '2007-01-14', ARRAY['psiquiatrica']::perfil_acess[])
-	(7, 15, '09876543211', 'Aluno7', '8f', 'masculino', '2011-05-15', ARRAY['invisivel']::perfil_acess[]),
-  	(8, 16, '13573486534', 'Aluno8', '9f', 'feminino', '2009-04-03', ARRAY['sensorial']::perfil_acess[]),
-  	(9, 17, '34215687091', 'Aluno9', '3m', 'masculino', '2007-03-07', ARRAY['psiquiatrica']::perfil_acess[])
-	(10, 18, '55566677788', 'Aluno10', '7f', 'masculino', '2012-12-25', ARRAY['fisica']::perfil_acess[]),
-  	(11, 19, '12309876543', 'Aluno11', '9f', 'feminino', '2009-08-20', ARRAY['fisica']::perfil_acess[]),
-  	(12, 20, '12563490789', 'Aluno12', '3m', 'masculino', '2007-03-11', ARRAY['fisica']::perfil_acess[])
-	(13, 21, '00100200300', 'Aluno13', '6f', 'masculino', '2013-05-15', ARRAY['fisica']::perfil_acess[]),
-  	(14, 22, '10210310411', 'Aluno14', '8f', 'feminino', '2011-06-27', ARRAY['sensorial']::perfil_acess[]),
-  	(15, 23, '02112345690', 'Aluno15', '3m', 'masculino', '2007-11-10', ARRAY['fisica']::perfil_acess[]);
+  	(1, 1, '12345678901', 'Aluno1', '6f', 'masculino', '2013-05-15', ARRAY['fisica']::perfil_acess[]),
+  	(2, 2, '98765432109', 'Aluno2', '9f', 'feminino', '2009-08-20', ARRAY['sensorial']::perfil_acess[]),
+  	(3, 3, '45678901234', 'Aluno3', '3m', 'masculino', '2006-03-10', ARRAY['psiquiatrica']::perfil_acess[]),
+	(4, 4, '01234567890', 'Aluno4', '6f', 'masculino', '2013-11-13', ARRAY['cognitiva/intelectual']::perfil_acess[]),
+  	(5, 5, '34567890123', 'Aluno5', '9f', 'feminino', '2010-02-21', ARRAY['invisivel']::perfil_acess[]),
+  	(6, 1, '78901234567', 'Aluno6', '3m', 'masculino', '2007-01-14', ARRAY['psiquiatrica']::perfil_acess[]),
+	(7, 2, '09876543211', 'Aluno7', '8f', 'masculino', '2011-05-15', ARRAY['invisivel']::perfil_acess[]),
+  	(8, 3, '13573486534', 'Aluno8', '9f', 'feminino', '2009-04-03', ARRAY['sensorial']::perfil_acess[]),
+  	(9, 4, '34215687091', 'Aluno9', '3m', 'masculino', '2007-03-07', ARRAY['psiquiatrica']::perfil_acess[]),
+	(10, 5, '55566677788', 'Aluno10', '7f', 'masculino', '2012-12-25', ARRAY['fisica']::perfil_acess[]),
+  	(11, 1, '12309876543', 'Aluno11', '9f', 'feminino', '2009-08-20', ARRAY['fisica']::perfil_acess[]),
+  	(12, 2, '12563490789', 'Aluno12', '3m', 'masculino', '2007-03-11', ARRAY['fisica']::perfil_acess[]),
+	(13, 3, '00100200300', 'Aluno13', '6f', 'masculino', '2013-05-15', ARRAY['fisica']::perfil_acess[]),
+  	(14, 4, '10210310411', 'Aluno14', '8f', 'feminino', '2011-06-27', ARRAY['sensorial']::perfil_acess[]),
+  	(15, 5, '02112345690', 'Aluno15', '3m', 'masculino', '2007-11-10', ARRAY['fisica']::perfil_acess[]);
 
 
 --inserindo valores nas tabelas da olimpíada
