@@ -89,3 +89,23 @@ VALUES
 	(1, 2, 'fase 1', ARRAY[true, true, true]),
 	(1, 2, 'fase 2', ARRAY[false, true, true]),
 	(1, 2, 'fase 3', ARRAY[false, false, false]);
+
+INSERT INTO inscricao_escola (id_edicao, id_escola, valor_pago)
+VALUES
+	(1, 2, 2000),
+	(1, 1, 0),
+	(1, 3, 0),
+
+	(2, 2, 3500),
+	(2, 1, 0),
+	(2, 3, 0),
+
+	(3, 2, 500),
+	(3, 1, 0),
+	(3, 3, 0);
+
+INSERT INTO escola_para_analisar (id_escola)
+VALUES 
+	(1),
+	(2),
+	(3);
