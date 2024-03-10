@@ -21,6 +21,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    links:
+      - "db:database"
   api_2:
     environment:
       API_PORT: 8001
@@ -29,6 +31,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    links:
+      - "db:database"
   db:
     build: ./db/
     restart: always
