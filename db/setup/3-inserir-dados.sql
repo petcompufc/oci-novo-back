@@ -67,9 +67,6 @@ VALUES
 
 INSERT INTO aluno_fase (id_edicao, id_aluno, fase, acertos)
 VALUES 
-
-	--ERRO: não tá dando de inserir linhas de cada fase de um mesmo aluno
-	-- aluno 3 - programacao
 	-- edição 2023
 	(1, 3, 'fase 1', ARRAY[true, false, true]),
 	(1, 3, 'fase 2', ARRAY[true, true, true]),
@@ -92,4 +89,3 @@ VALUES
 	(1, 2, 'fase 1', ARRAY[true, true, true]),
 	(1, 2, 'fase 2', ARRAY[false, true, true]),
 	(1, 2, 'fase 3', ARRAY[false, false, false]);
-
