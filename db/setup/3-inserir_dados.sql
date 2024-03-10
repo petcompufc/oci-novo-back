@@ -3,49 +3,89 @@
 --inserindo valores na tabela usuário
 INSERT INTO usuario (hash_senha, cargo, ultimo_login)
 VALUES
-  	(decode('Senha_Petiano', 'escape'), 'petiano', '2024-03-08 00:00:00+00:00'),
-  	(decode('Senha_Petiano', 'escape'), 'petiano', '2024-03-08 00:00:00+00:00'),
-  	(decode('Senha_Petiano', 'escape'), 'petiano', '2024-03-08 00:00:00+00:00');
+  	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-08 00:00:00+00:00'),
+  	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-08 00:00:00+00:00'),
+	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-09 00:00:00+00:00'),
+	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-09 00:00:00+00:00'),
+	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-09 00:00:00+00:00'),
+	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-10 00:00:00+00:00'),
+	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-10 00:00:00+00:00'),
+  	(decode('senha_petiano', 'escape'), 'petiano', '2024-03-10 00:00:00+00:00');
   
 INSERT INTO usuario (hash_senha, cargo, ultimo_login)
 VALUES
-	(decode('Senha_Aluno', 'escape'), 'aluno', '2024-03-08 00:00:00+00:00'),
-  	(decode('Senha_Aluno', 'escape'), 'aluno', '2024-03-08 00:00:00+00:00'),
-  	(decode('Senha_Aluno', 'escape'), 'aluno', '2024-03-08 00:00:00+00:00');
+	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-08 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-08 00:00:00+00:00'),
+	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-09 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-09 00:00:00+00:00'),
+	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-09 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00'),
+  	(decode('senha_aluno', 'escape'), 'aluno', '2024-03-10 00:00:00+00:00');
 
 INSERT INTO usuario (hash_senha, cargo, ultimo_login)
 VALUES
-	(decode('Senha_Escola', 'escape'), 'escola', '2024-03-08 00:00:00+00:00'),
-  	(decode('Senha_Escola', 'escape'), 'escola', '2024-03-08 00:00:00+00:00'),
-  	(decode('Senha_Escola', 'escape'), 'escola', '2024-03-08 00:00:00+00:00');
+	(decode('senha_escola', 'escape'), 'escola', '2024-03-08 00:00:00+00:00'),
+  	(decode('senha_escola', 'escape'), 'escola', '2024-03-08 00:00:00+00:00'),
+	(decode('senha_escola', 'escape'), 'escola', '2024-03-09 00:00:00+00:00'),
+  	(decode('senha_escola', 'escape'), 'escola', '2024-03-09 00:00:00+00:00'),
+  	(decode('senha_escola', 'escape'), 'escola', '2024-03-09 00:00:00+00:00');
 	
 --inserindo valores na tabela petiano
 INSERT INTO petiano (id_global, login)
 VALUES
 	(1, 'login_petiano1'),
 	(2, 'login_petiano2'),
-	(3, 'login_petiano3');
+	(3, 'login_petiano1'),
+	(4, 'login_petiano1'),
+	(5, 'login_petiano2'),
+	(6, 'login_petiano1'),
+	(7, 'login_petiano2'),
+	(8, 'login_petiano3');
 	
 --inserindo valores na tabela endereco
 INSERT INTO endereco (cep, bairro, cidade, estado, rua, numero, complemento)
 VALUES
-	('00000-000', 'bairro1', 'cidade1', 'CE', 'rua1', 123, 'apto'),
-  	('11111-111', 'bairro2', 'cidade2', 'CE', 'rua2', 456, NULL),
-  	('22222-222', 'bairro3', 'cidade3', 'CE', 'rua3', 789, 'casa');
+	('00000-000', 'bairro1', 'cidade1', 'CE', 'rua1', 123, 'próximo ao parque eolico'),
+  	('11111-111', 'bairro2', 'cidade2', 'CE', 'rua2', 456, 'ao lado da fabrica'),
+	('22222-222', 'bairro3', 'cidade3', 'CE', 'rua3', 789, 'proximo a subestação de energia eletrica'),
+  	('33333-333', 'bairro4', 'cidade4', 'CE', 'rua4', 012, 'proximo ao presidio'),
+  	('44444-444', 'bairro5', 'cidade5', 'CE', 'rua5', 345, 'prédio branco');
 
 --inserindo valores na tabela escola
 INSERT INTO escola (id_global, cod_inep, nome, id_endereco, email, telefone, nome_coordenador, email_coordenador, telefone_coordenador, tipo_escola)
 VALUES
-	(7, '123456789012', 'Escola1', 1, 'escola1@example.com', '11 91234-5678', 'coordenador1', 'coordenador1@example.com', '11 99876-5432', 'publica'),
-  	(8, '987654321098', 'Escola2', 2, 'escola2@example.com', '21 99876-5432', 'coordenador2', 'coordenador2@example.com', '21 91234-5678', 'particular'),
-  	(9, '543210987654', 'Escola3', 3, 'escola3@example.com', '41 91234-5678', 'coordenador3', 'coordenador3@example.com', '41 99876-5432', 'publica');
+	(1, '123456789012', 'Escola1', 1, 'escola1@example.com', '85 91234-5678', 'coordenador1', 'coordenador1@example.com', '85 99876-5432', 'publica'),
+  	(2, '987654321098', 'Escola2', 2, 'escola2@example.com', '85 98197-6619', 'coordenador2', 'coordenador2@example.com', '85 91234-5678', 'particular'),
+	(3, '345678901234', 'Escola2', 3, 'escola3@example.com', '85 99667-8431', 'coordenador3', 'coordenador3@example.com', '85 95678-9012', 'particular'),
+	(4, '456789012345', 'Escola2', 4, 'escola4@example.com', '85 99876-5432', 'coordenador4', 'coordenador4@example.com', '85 98901-2345', 'particular'),
+  	(5, '543210987654', 'Escola3', 5, 'escola5@example.com', '85 91234-5678', 'coordenador5', 'coordenador5@example.com', '88 99876-5432', 'publica');
 
 --inserindo valores na tabela aluno
 INSERT INTO aluno (id_global, id_escola, cpf, nome, serie_atual, genero, data_nasc, perfis_acess)
 VALUES
-  	(4, 1, '12345678901', 'Aluno1', '6f', 'masculino', '2010-05-15', ARRAY['fisica']::perfil_acess[]),
-  	(5, 2, '98765432109', 'Aluno2', '9f', 'feminino', '2009-08-20', ARRAY['sensorial']::perfil_acess[]),
-  	(6, 3, '45678901234', 'Aluno3', '3m', 'masculino', '2007-03-10', ARRAY['psiquiatrica']::perfil_acess[]);
+  	(1, 1, '12345678901', 'Aluno1', '6f', 'masculino', '2013-05-15', ARRAY['fisica']::perfil_acess[]),
+  	(2, 1, '98765432109', 'Aluno2', '9f', 'feminino', '2009-08-20', ARRAY['sensorial']::perfil_acess[]),
+  	(3, 1, '45678901234', 'Aluno3', '3m', 'masculino', '2006-03-10', ARRAY['psiquiatrica']::perfil_acess[]),
+	(4, 2, '01234567890', 'Aluno4', '6f', 'masculino', '2013-11-13', ARRAY['cognitiva/intelectual']::perfil_acess[]),
+  	(5, 2, '34567890123', 'Aluno5', '9f', 'feminino', '2010-02-21', ARRAY['invisivel']::perfil_acess[]),
+  	(6, 2, '78901234567', 'Aluno6', '3m', 'masculino', '2007-01-14', ARRAY['psiquiatrica']::perfil_acess[])
+	(7, 3, '09876543211', 'Aluno7', '8f', 'masculino', '2011-05-15', ARRAY['invisivel']::perfil_acess[]),
+  	(8, 3, '13573486534', 'Aluno8', '9f', 'feminino', '2009-04-03', ARRAY['sensorial']::perfil_acess[]),
+  	(9, 3, '34215687091', 'Aluno9', '3m', 'masculino', '2007-03-07', ARRAY['psiquiatrica']::perfil_acess[])
+	(10, 4, '55566677788', 'Aluno10', '7f', 'masculino', '2012-12-25', ARRAY['fisica']::perfil_acess[]),
+  	(11, 4, '12309876543', 'Aluno11', '9f', 'feminino', '2009-08-20', ARRAY['fisica']::perfil_acess[]),
+  	(12, 4, '12563490789', 'Aluno12', '3m', 'masculino', '2007-03-11', ARRAY['fisica']::perfil_acess[])
+	(13, 5, '00100200300', 'Aluno13', '6f', 'masculino', '2013-05-15', ARRAY['fisica']::perfil_acess[]),
+  	(14, 5, '10210310411', 'Aluno14', '8f', 'feminino', '2011-06-27', ARRAY['sensorial']::perfil_acess[]),
+  	(15, 5, '02112345690', 'Aluno15', '3m', 'masculino', '2007-11-10', ARRAY['fisica']::perfil_acess[]);
 
 
 --inserindo valores nas tabelas da olimpíada
