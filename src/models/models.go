@@ -1,56 +1,40 @@
 package models
 
-import (
-	"time"
-)
+import "time"
 
 type Usuario struct {
-	IdGlobal int                    `json:"id_global"`
-	Dados    map[string]interface{} `json:"dados"`
-}
-
-type Escola struct {
-	HashSenha           string    `json:"-"`
-	Cargo               string    `json:"cargo"`
-	UltimoLogin         time.Time `json:"ultimo_login"`
-	IDEscola            int       `json:"-"`
-	CodINEP             string    `json:"-"`
-	Nome                string    `json:"-"`
-	Email               string    `json:"-"`
-	Telefone            string    `json:"-"`
-	NomeCoordenador     string    `json:"-"`
-	EmailCoordenador    string    `json:"-"`
-	TelefoneCoordenador string    `json:"-"`
-	TipoEscola          string    `json:"-"`
-	IDEndereco          int       `json:"-"`
-	Endereco            *Endereco `json:"-"`
-}
-
-type Endereco struct {
-	ID          int    `json:"id"`
-	CEP         string `json:"cep"`
-	Bairro      string `json:"bairro"`
-	Cidade      string `json:"cidade"`
-	Estado      string `json:"estado"`
-	Rua         string `json:"rua"`
-	Numero      int    `json:"numero"`
-	Complemento string `json:"complemento"`
-}
-
-type Aluno struct {
-	HashSenha   string    `json:"-"`
+	// Campos da estrutura Usuario
+	IdGlobal    int       `json:"id_global"`
+	HashSenha   string    `json:"hash_senha"`
 	Cargo       string    `json:"cargo"`
 	UltimoLogin time.Time `json:"ultimo_login"`
-	IDAluno     int       `json:"-"`
-	IDEscola    int       `json:"-"`
-	CPF         string    `json:"-"`
-	Nome        string    `json:"-"`
-	SerieAtual  string    `json:"-"`
-	Genero      string    `json:"-"`
-	DataNasc    string    `json:"-"`
-	PerfisAcess []string  `json:"-"`
-}
 
-func CreateUser(user *Usuario) error {
+	// Campos da estrutura Aluno
+	IDAluno     int      `json:"id_aluno,omitempty"`
+	IDEscola    int      `json:"id_escola,omitempty"`
+	CPF         string   `json:"cpf,omitempty"`
+	Nome        string   `json:"nome,omitempty"`
+	SerieAtual  string   `json:"serie_atual,omitempty"`
+	Genero      string   `json:"genero,omitempty"`
+	DataNasc    string   `json:"data_nasc,omitempty"`
+	PerfisAcess []string `json:"perfis_acesso,omitempty"`
 
+	// Campos da estrutura Escola
+	CodINEP             string `json:"codinep,omitempty"`
+	Email               string `json:"email,omitempty"`
+	Telefone            string `json:"telefone,omitempty"`
+	NomeCoordenador     string `json:"nome_coordenador,omitempty"`
+	EmailCoordenador    string `json:"email_coordenador,omitempty"`
+	TelefoneCoordenador string `json:"telefone_coordenador,omitempty"`
+	TipoEscola          string `json:"tipo_escola,omitempty"`
+	IDEndereco          int    `json:"idendereco,omitempty"`
+
+	// Campos da estrutura Endereco
+	CEP         string `json:"cep,omitempty"`
+	Bairro      string `json:"bairro,omitempty"`
+	Cidade      string `json:"cidade,omitempty"`
+	Estado      string `json:"estado,omitempty"`
+	Rua         string `json:"rua,omitempty"`
+	Numero      int    `json:"numero,omitempty"`
+	Complemento string `json:"complemento,omitempty"`
 }

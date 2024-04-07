@@ -6,6 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func SetupUserRoutes(app *fiber.App) {
-	app.Post("api/<versao>/cadastro", handlers.CreateUser)
+func SetupUserRoutes(app *fiber.App, h *handlers.Handlers) {
+	app.Post("api/<versao>/cadastro", h.CreateUser)
 }

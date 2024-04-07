@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 
 	"strconv"
@@ -20,6 +21,14 @@ func main() {
 		fmt.Printf("'%s' is a invalid port number.\n", env_port)
 		os.Exit(2)
 	}
+
+	// Criar uma instância de DB
+	connectionString := "postgres://api_user:1234@localhost:5432/oci_dados?sslmode=disable"
+	db, err := sql.Open("postgres", connectionString)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 
 	app := fiber.New()
 
