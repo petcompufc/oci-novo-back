@@ -5,12 +5,6 @@ go 1.21.5
 require github.com/gofiber/fiber/v2 v2.52.4
 
 require (
-	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.5 // indirect
-)
-
-require (
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/compress v1.17.7 // indirect
