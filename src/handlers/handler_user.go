@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"log"
 	"oci-novo/api/models"
 	"time"
 
@@ -30,22 +31,17 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 	cargo := newUser.Cargo
 
 	// inserir os dados na tabela usuário
-	// inserir os dados na tabela usuário
-	result, err := h.DB.Exec("INSERT INTO usuario (hash_senha, cargo, ultimo_login) VALUES ($1, $2, $3) RETURNING id_usuario", newUser.HashSenha, newUser.Cargo, time.Now())
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Erro ao criar usuário",
-		})
-	}
+	result := h.DB.QueryRow("INSERT INTO usuario (hash_senha, cargo, ultimo_login) VALUES ($1, $2, $3) RETURNING id_usuario", newUser.HashSenha, newUser.Cargo, time.Now())
 
-	// Obter o ID inserido
-	id, err := result.LastInsertId()
+	// Obter o ID inserido e verificar se houve erro
+	var idGlobal int
+	err := result.Scan(&idGlobal)
 	if err != nil {
+		log.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Erro ao obter o ID inserido",
+			"message": "Erro ao obter o IdGlobal do usuário inserido",
 		})
 	}
-	idGlobal := int(id)
 
 	if cargo == "aluno" {
 		// Inserir os dados na tabela aluno
@@ -77,6 +73,7 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 			newUser.Complemento,
 		)
 		if err != nil {
+			log.Println(err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Erro ao criar endereço",
 			})

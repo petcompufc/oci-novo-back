@@ -2,7 +2,10 @@ module oci-novo/api
 
 go 1.21.5
 
-require github.com/gofiber/fiber/v2 v2.52.4
+require (
+	github.com/gofiber/fiber/v2 v2.52.4
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	github.com/andybalholm/brotli v1.1.0 // indirect

@@ -7,5 +7,9 @@ import (
 )
 
 func SetupUserRoutes(app *fiber.App, h *handlers.Handlers) {
-	app.Post("api/<versao>/cadastro", h.CreateUser)
+	app.Post("api/1/cadastro", h.CreateUser)
+
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, World!")
+	})
 }
