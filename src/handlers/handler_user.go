@@ -63,7 +63,7 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 
 	} else if cargo == "escola" {
 		// Inserir os dados na tabela endereco
-		result, err := h.DB.Exec("INSERT INTO endereco (cep, bairro, cidade, estado, rua, numero, complemento) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_endereco",
+		result := h.DB.QueryRow("INSERT INTO endereco (cep, bairro, cidade, estado, rua, numero, complemento) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_endereco",
 			newUser.CEP,
 			newUser.Bairro,
 			newUser.Cidade,
@@ -72,18 +72,14 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 			newUser.Numero,
 			newUser.Complemento,
 		)
+
+		// Obter o ID inserido e verificar se houve erro
+		var idEndereco int
+		err := result.Scan(&idEndereco)
 		if err != nil {
 			log.Println(err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"message": "Erro ao criar endereço",
-			})
-		}
-
-		// Obter o ID inserido
-		idEndereco, err := result.LastInsertId()
-		if err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"message": "Erro ao obter o ID inserido",
+				"message": "Erro ao obter o IdEndereco do endereço inserido",
 			})
 		}
 
