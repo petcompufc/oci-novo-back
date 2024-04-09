@@ -77,6 +77,7 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 		var idEndereco int
 		err := result.Scan(&idEndereco)
 		if err != nil {
+			// Pensar em como fazer se usuário for inserido, mas Endereço não
 			log.Println(err)
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Erro ao obter o IdEndereco do endereço inserido",
@@ -97,6 +98,7 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 			idEndereco,
 		)
 		if err != nil {
+			// Pensar em como fazer se usuário for inserido, mas Escola não
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Erro ao criar escola",
 			})
