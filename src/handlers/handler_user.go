@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"oci-novo/api/models"
+	"os"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -11,11 +13,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type Handlers struct {
-	DB *sql.DB
-}
+func CreateUser(c *fiber.Ctx) error {
+	// Criar uma instância de DB
+	password := os.Getenv("API_USER_PWD")
+	connectionString := fmt.Sprintf("postgres://api_user:%s@localhost:5432/oci_dados?sslmode=disable", password)
+	db, err := sql.Open("postgres", connectionString)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
 
-func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 	// Receba os dados do corpo da solicitação JSON
 	var newUser models.Usuario
 	if err := c.BodyParser(&newUser); err != nil {
@@ -31,11 +38,11 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 	cargo := newUser.Cargo
 
 	// inserir os dados na tabela usuário
-	result := h.DB.QueryRow("INSERT INTO usuario (hash_senha, cargo, ultimo_login) VALUES ($1, $2, $3) RETURNING id_usuario", newUser.HashSenha, newUser.Cargo, time.Now())
+	result := db.QueryRow("INSERT INTO usuario (hash_senha, cargo, ultimo_login) VALUES ($1, $2, $3) RETURNING id_usuario", newUser.HashSenha, newUser.Cargo, time.Now())
 
 	// Obter o ID inserido e verificar se houve erro
 	var idGlobal int
-	err := result.Scan(&idGlobal)
+	err = result.Scan(&idGlobal)
 	if err != nil {
 		log.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -45,7 +52,7 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 
 	if cargo == "aluno" {
 		// Inserir os dados na tabela aluno
-		_, err = h.DB.Exec("INSERT INTO aluno (id_global, id_escola, cpf, nome, serie_atual, genero, data_nasc, perfis_acess) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+		_, err = db.Exec("INSERT INTO aluno (id_global, id_escola, cpf, nome, serie_atual, genero, data_nasc, perfis_acess) VALUES ($1, $2, $3, $4, $5, $6, $7)",
 			idGlobal,
 			newUser.IDEscola,
 			newUser.CPF,
@@ -63,7 +70,7 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 
 	} else if cargo == "escola" {
 		// Inserir os dados na tabela endereco
-		result := h.DB.QueryRow("INSERT INTO endereco (cep, bairro, cidade, estado, rua, numero, complemento) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_endereco",
+		result := db.QueryRow("INSERT INTO endereco (cep, bairro, cidade, estado, rua, numero, complemento) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id_endereco",
 			newUser.CEP,
 			newUser.Bairro,
 			newUser.Cidade,
@@ -85,7 +92,7 @@ func (h *Handlers) CreateUser(c *fiber.Ctx) error {
 		}
 
 		// Inserir os dados na tabela escola
-		_, err = h.DB.Exec("INSERT INTO escola (id_global, cod_inep, nome, email, telefone, nome_coordenador, email_coordenador, telefone_coordenador, tipo_escola, id_endereco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+		_, err = db.Exec("INSERT INTO escola (id_global, cod_inep, nome, email, telefone, nome_coordenador, email_coordenador, telefone_coordenador, tipo_escola, id_endereco) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
 			idGlobal,
 			newUser.CodINEP,
 			newUser.Nome,

@@ -1,9 +1,7 @@
 package main
 
 import (
-	"database/sql"
 	"log"
-	"oci-novo/api/handlers"
 	"oci-novo/api/routes"
 
 	"strconv"
@@ -30,17 +28,8 @@ func main() {
 		os.Exit(2)
 	}
 
-	// Criar uma instância de DB
-	connectionString := "postgres://api_user:1234@localhost:5432/oci_dados?sslmode=disable"
-	db, err := sql.Open("postgres", connectionString)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer db.Close()
-
-	h := &handlers.Handlers{DB: db}
 	app := fiber.New()
-	routes.SetupUserRoutes(app, h)
+	routes.SetupUserRoutes(app)
 	app.Listen(":" + env_port)
 
 }
