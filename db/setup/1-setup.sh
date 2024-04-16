@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# cria roles base
+psql -U $DB_ADMIN_USER -c "CREATE ROLE petiano_user LOGIN PASSWORD '$PETIANO_USER_PWD'; \
+    CREATE ROLE escola_user LOGIN PASSWORD '$ESCOLA_USER_PWD'; \
+    CREATE ROLE aluno_user LOGIN PASSWORD '$ALUNO_USER_PWD'; \
+    CREATE ROLE api_user LOGIN PASSWORD '$API_USER_PWD';"
