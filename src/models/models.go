@@ -10,14 +10,14 @@ type Usuario struct {
 	UltimoLogin time.Time `json:"ultimo_login"`
 
 	// Campos da estrutura Aluno
-	IDAluno     int      `json:"id_aluno,omitempty"`
-	IDEscola    int      `json:"id_escola,omitempty"`
-	CPF         string   `json:"cpf,omitempty"`
-	Nome        string   `json:"nome,omitempty"`
-	SerieAtual  string   `json:"serie_atual,omitempty"`
-	Genero      string   `json:"genero,omitempty"`
-	DataNasc    string   `json:"data_nasc,omitempty"`
-	PerfisAcess []string `json:"perfis_acesso,omitempty"`
+	IDAluno     int       `json:"id_aluno,omitempty"`
+	IDEscola    int       `json:"id_escola,omitempty"`
+	CPF         string    `json:"cpf,omitempty"`
+	Nome        string    `json:"nome,omitempty"`
+	SerieAtual  string    `json:"serie_atual,omitempty"`
+	Genero      string    `json:"genero,omitempty"`
+	DataNasc    time.Time `json:"data_nasc,omitempty"`
+	PerfisAcess []string  `json:"perfis_acesso,omitempty"`
 
 	// Campos da estrutura Escola
 	CodINEP             string `json:"codinep,omitempty"`
