@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"oci-novo/api/handlers"
 	"oci-novo/api/routes"
 
 	"strconv"
@@ -28,8 +29,11 @@ func main() {
 		os.Exit(2)
 	}
 
+	// Criando uma instância de Handler: mapa de conexões de banco de dados
+	handlers := handlers.NewHandler()
+
 	app := fiber.New()
-	routes.SetupUserRoutes(app)
+	routes.SetupUserRoutes(app, handlers)
 	app.Listen(":" + env_port)
 
 }
