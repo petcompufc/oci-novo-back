@@ -16,7 +16,7 @@ type Aluno struct {
 	SerieAtual  string    `json:"serie_atual,omitempty"`
 	Genero      string    `json:"genero,omitempty"`
 	DataNasc    time.Time `json:"data_nasc,omitempty"`
-	PerfisAcess []string  `json:"perfis_acesso,omitempty"`
+	PerfisAcess []string  `json:"perfis_acess,omitempty"`
 }
 
 type Endereco struct {

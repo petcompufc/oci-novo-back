@@ -3,9 +3,10 @@ package handlers
 import (
 	"log"
 	"oci-novo/api/models"
+	"strings"
 	"time"
 
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -22,6 +23,7 @@ func (h *Handler) CreateEscola(c *fiber.Ctx) error {
 	// Receba os dados do corpo da solicitação JSON
 	var newEscola models.Escola
 	if err := c.BodyParser(&newEscola); err != nil {
+		log.Println(err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Erro ao analisar o corpo de solicitação JSON",
 		})
@@ -83,13 +85,9 @@ func (h *Handler) CreateEscola(c *fiber.Ctx) error {
 	// verificar se o cod_inep já existe na tabela escola
 	var codINEPExists string
 	err = db.QueryRow("SELECT cod_inep FROM escola WHERE cod_inep = $1", newEscola.CodINEP).Scan(&codINEPExists)
-	if err != nil {
+	if err == nil {
+		log.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": "Erro ao verificar a existência do cod_inep",
-		})
-	}
-	if codINEPExists != "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "cod_inep já existe",
 		})
 	}
@@ -117,7 +115,9 @@ func (h *Handler) CreateEscola(c *fiber.Ctx) error {
 	}
 
 	// Verificar se o telefone do coordenador é válido
-	if newEscola.TelefoneCoordenador != "" {
+	if newEscola.TelefoneCoordenador == "" {
+		log.Println(newEscola)
+		log.Println(newEscola.TelefoneCoordenador)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Telefone do coordenador inválido",
 		})
@@ -207,12 +207,14 @@ func (h *Handler) CreateAluno(c *fiber.Ctx) error {
 	// Receba os dados do corpo da solicitação JSON
 	var newAluno models.Aluno
 	if err := c.BodyParser(&newAluno); err != nil {
+		log.Println(err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Erro ao analisar o corpo de solicitação JSON",
 		})
 	}
 
 	// Validar os dados de aluno
+	newAluno.Cargo = strings.ToLower(newAluno.Cargo)
 	if newAluno.Cargo != "aluno" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Tipo de usuário inválido",
@@ -304,7 +306,7 @@ func (h *Handler) CreateAluno(c *fiber.Ctx) error {
 	}
 
 	// Inserir os dados na tabela aluno
-	_, err = db.Exec("INSERT INTO aluno (id_global, id_escola, cpf, nome, serie_atual, genero, data_nasc, perfis_acess) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+	_, err = db.Exec("INSERT INTO aluno (id_global, id_escola, cpf, nome, serie_atual, genero, data_nasc, perfis_acess) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
 		idGlobal,
 		newAluno.IDEscola,
 		newAluno.CPF,
@@ -312,9 +314,10 @@ func (h *Handler) CreateAluno(c *fiber.Ctx) error {
 		newAluno.SerieAtual,
 		newAluno.Genero,
 		newAluno.DataNasc,
-		newAluno.PerfisAcess,
+		pq.Array(newAluno.PerfisAcess),
 	)
 	if err != nil {
+		log.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "Erro ao criar aluno",
 		})

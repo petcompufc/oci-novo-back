@@ -3,7 +3,6 @@ package handlers
 import (
 	"database/sql"
 	"fmt"
-	"os"
 	"strings"
 )
 
@@ -20,12 +19,22 @@ func NewHandler() *Handler {
 }
 
 func (h *Handler) getDB(user string) (*sql.DB, error) {
+	// password := os.Getenv(strings.ToUpper(user) + "_PWD")
+	connectionString := fmt.Sprintf("postgres://%s:1234@localhost:5434/oci_dados?sslmode=disable", user)
+
 	if db, ok := h.dbs[user]; ok {
+		// Verificar se a conexão com o banco de dados ainda está ativa
+		if err := db.Ping(); err != nil {
+			// Se a conexão estiver fechada, reabra-a.
+			connectionString := fmt.Sprintf("postgres://%s:1234@localhost:5434/oci_dados?sslmode=disable", user)
+			db, err = sql.Open("postgres", connectionString)
+			if err != nil {
+				return nil, err
+			}
+		}
 		return db, nil
 	}
 
-	password := os.Getenv(strings.ToUpper(user) + "_PWD")
-	connectionString := fmt.Sprintf("postgres://%s:%s@localhost:5432/oci_dados?sslmode=disable", user, password)
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		return nil, err
@@ -49,11 +58,11 @@ func stringInSlice(a string, list []string) bool {
 
 func isValidEmail(email string) bool {
 	// verificar se string email contém @
-	if !stringInSlice("@", []string{email}) {
+	if !stringInSlice("@", strings.Split(email, "")) {
 		return false
 	}
 
-	if !stringInSlice(".", []string{email}) {
+	if !stringInSlice(".", strings.Split(email, "")) {
 		return false
 	}
 
