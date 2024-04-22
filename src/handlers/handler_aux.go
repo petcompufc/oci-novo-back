@@ -3,6 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"fmt"
+	"os"
 	"strings"
 )
 
@@ -19,8 +20,9 @@ func NewHandler() *Handler {
 }
 
 func (h *Handler) getDB(user string) (*sql.DB, error) {
-	// password := os.Getenv(strings.ToUpper(user) + "_PWD")
-	connectionString := fmt.Sprintf("postgres://%s:1234@localhost:5434/oci_dados?sslmode=disable", user)
+	password := os.Getenv(strings.ToUpper(user) + "_PWD")
+	password = reverseString(password)
+	connectionString := fmt.Sprintf("postgres://%s:%s@localhost:5434/oci_dados?sslmode=disable", user, password)
 
 	if db, ok := h.dbs[user]; ok {
 		// Verificar se a conexão com o banco de dados ainda está ativa
@@ -67,4 +69,12 @@ func isValidEmail(email string) bool {
 	}
 
 	return true
+}
+
+func reverseString(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
 }

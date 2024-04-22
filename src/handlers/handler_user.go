@@ -86,7 +86,6 @@ func (h *Handler) CreateEscola(c *fiber.Ctx) error {
 	var codINEPExists string
 	err = db.QueryRow("SELECT cod_inep FROM escola WHERE cod_inep = $1", newEscola.CodINEP).Scan(&codINEPExists)
 	if err == nil {
-		log.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": "cod_inep já existe",
 		})
@@ -116,8 +115,6 @@ func (h *Handler) CreateEscola(c *fiber.Ctx) error {
 
 	// Verificar se o telefone do coordenador é válido
 	if newEscola.TelefoneCoordenador == "" {
-		log.Println(newEscola)
-		log.Println(newEscola.TelefoneCoordenador)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "Telefone do coordenador inválido",
 		})
