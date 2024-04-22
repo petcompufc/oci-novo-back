@@ -191,6 +191,7 @@ GRANT INSERT ON usuario TO adicionar_usuario;
 GRANT INSERT ON petiano TO adicionar_usuario;
 GRANT INSERT ON aluno TO adicionar_usuario;
 GRANT INSERT ON escola TO adicionar_usuario;
+GRANT INSERT ON endereco TO adicionar_usuario;
 GRANT INSERT ON escola_para_analisar TO adicionar_usuario;
 
 CREATE ROLE inserir_metadados;
