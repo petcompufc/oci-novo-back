@@ -234,6 +234,7 @@ func (h *Handler) CreateAluno(c *fiber.Ctx) error {
 	// Verificar se o ID da escola é válido
 	_, err = db.Exec("SELECT id_escola FROM escola WHERE id_escola = $1", newAluno.IDEscola)
 	if err != nil {
+		log.Println(err)
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "ID da escola inválido",
 		})
