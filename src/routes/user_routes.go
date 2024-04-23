@@ -13,6 +13,10 @@ func SetupUserRoutes(app *fiber.App, handlers *handlers.Handler) {
 
 	app.Post("api/v1/cadastro/aluno", handlers.CreateAluno)
 
+	app.Get("api/v1/escola", handlers.GetEscolas)
+
+	app.Get("api/v1/aluno", handlers.GetAluno)
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("Hello, World!")
 	})

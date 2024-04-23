@@ -189,7 +189,6 @@ func (h *Handler) CreateEscola(c *fiber.Ctx) error {
 		"id_usuario": idGlobal,
 		"cargo":      newEscola.Cargo,
 	})
-
 }
 
 func (h *Handler) CreateAluno(c *fiber.Ctx) error {
@@ -326,4 +325,213 @@ func (h *Handler) CreateAluno(c *fiber.Ctx) error {
 		"id_usuario": idGlobal,
 		"cargo":      newAluno.Cargo,
 	})
+}
+
+func (h *Handler) GetEscolas(c *fiber.Ctx) error {
+	request := models.Request{}
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Erro ao analisar o corpo de solicitação JSON",
+		})
+	}
+
+	if request.IdGlobal <= 0 || request.IdUser <= 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "ID inválido",
+		})
+	}
+
+	// Criar instância de DB
+	db, err := h.getDB("api_user")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	row := db.QueryRow("SELECT cargo FROM usuario WHERE id_usuario = $1", request.IdGlobal)
+
+	var cargo string
+	err = row.Scan(&cargo)
+	if err != nil {
+		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Erro ao obter cargo do usuário",
+		})
+	}
+	db.Close()
+
+	switch cargo {
+	case "escola":
+		if request.IdGlobal != request.IdUser {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Você somente pode acessar seus próprios dados",
+			})
+		}
+
+		// Criar instância de DB
+		db, err := h.getDB("escola_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		row := db.QueryRow("SELECT * FROM escola WHERE id_global = $1", request.IdUser)
+
+		escola := models.EscolaResponse{}
+		err = row.Scan(&escola.IDEscola, &escola.IdGlobal, &escola.CodINEP, &escola.Nome, &escola.IDEndereco, &escola.Email, &escola.Telefone, &escola.NomeCoordenador, &escola.EmailCoordenador, &escola.TelefoneCoordenador, &escola.TipoEscola)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter escola",
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(escola)
+
+	case "petiano":
+		// Criar instância de DB
+		db, err := h.getDB("petiano_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		row := db.QueryRow("SELECT * FROM escola WHERE id_global = $1", request.IdUser)
+
+		escola := models.EscolaResponse{}
+		err = row.Scan(&escola.IDEscola, &escola.IdGlobal, &escola.CodINEP, &escola.Nome, &escola.IDEndereco, &escola.Email, &escola.Telefone, &escola.NomeCoordenador, &escola.EmailCoordenador, &escola.TelefoneCoordenador, &escola.TipoEscola)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter escola",
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(escola)
+
+	default:
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Você não tem permissão para acessar esses dados",
+		})
+	}
+}
+
+func (h *Handler) GetAluno(c *fiber.Ctx) error {
+	request := models.Request{}
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Erro ao analisar o corpo de solicitação JSON",
+		})
+	}
+
+	// Criar instância de DB
+	db, err := h.getDB("api_user")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	row := db.QueryRow("SELECT cargo FROM usuario WHERE id_usuario = $1", request.IdGlobal)
+	var cargo string
+	err = row.Scan(&cargo)
+	if err != nil {
+		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Erro ao obter cargo do usuário",
+		})
+	}
+
+	db.Close()
+
+	switch cargo {
+	case "escola":
+		// Criar instância de DB
+		db, err := h.getDB("escola_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		aluno := models.AlunoResponse{}
+		var perfisAccess string
+		row = db.QueryRow("SELECT * FROM aluno WHERE id_global = $1", request.IdUser)
+		err = row.Scan(&aluno.IDAluno, &aluno.IdGlobal, &aluno.IDEscola, &aluno.CPF, &aluno.Nome, &aluno.SerieAtual, &aluno.Genero, &aluno.DataNasc, &perfisAccess)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter aluno",
+			})
+		}
+		aluno.PerfisAcess = strings.Split(perfisAccess, ",")
+
+		var idGlobalEscola int
+		row = db.QueryRow("SELECT id_global FROM escola WHERE id_escola = $1", aluno.IDEscola)
+		err = row.Scan(&idGlobalEscola)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter id_global da escola",
+			})
+		}
+
+		if idGlobalEscola != request.IdGlobal {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Você não tem permissão para acessar esses dados",
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(aluno)
+
+	case "petiano":
+		// Criar instância de DB
+		db, err := h.getDB("petiano_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		aluno := models.AlunoResponse{}
+		var perfisAccess string
+		row = db.QueryRow("SELECT * FROM aluno WHERE id_global = $1", request.IdUser)
+		err = row.Scan(&aluno.IDAluno, &aluno.IdGlobal, &aluno.IDEscola, &aluno.CPF, &aluno.Nome, &aluno.SerieAtual, &aluno.Genero, &aluno.DataNasc, &perfisAccess)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter aluno",
+			})
+		}
+		aluno.PerfisAcess = strings.Split(perfisAccess, ",")
+
+		return c.Status(fiber.StatusOK).JSON(aluno)
+
+	case "aluno":
+		if request.IdGlobal != request.IdUser {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Você somente pode acessar seus próprios dados",
+			})
+		}
+
+		// Criar instância de DB
+		db, err := h.getDB("aluno_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		aluno := models.AlunoResponse{}
+		var perfisAccess string
+		row = db.QueryRow("SELECT * FROM aluno WHERE id_global = $1", request.IdUser)
+		err = row.Scan(&aluno.IDAluno, &aluno.IdGlobal, &aluno.IDEscola, &aluno.CPF, &aluno.Nome, &aluno.SerieAtual, &aluno.Genero, &aluno.DataNasc, &perfisAccess)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter aluno",
+			})
+		}
+		aluno.PerfisAcess = strings.Split(perfisAccess, ",")
+
+		return c.Status(fiber.StatusOK).JSON(aluno)
+
+	default:
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Você não tem permissão para acessar esses dados",
+		})
+	}
 }

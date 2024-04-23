@@ -36,6 +36,7 @@ type Escola struct {
 	UltimoLogin time.Time `json:"ultimo_login"`
 
 	// Campos da estrutura Escola
+	IDEscola            int    `json:"id_escola,omitempty"`
 	Nome                string `json:"nome,omitempty"`
 	CodINEP             string `json:"codinep,omitempty"`
 	Email               string `json:"email,omitempty"`
@@ -47,4 +48,35 @@ type Escola struct {
 	IDEndereco          int    `json:"idendereco,omitempty"`
 
 	Endereco Endereco `json:"endereco,omitempty"`
+}
+
+type Request struct {
+	IdGlobal int `json:"id_global"`
+	IdUser   int `json:"id_user"`
+}
+
+type EscolaResponse struct {
+	IdGlobal            int    `json:"id_global"`
+	IDEscola            int    `json:"id_escola"`
+	Nome                string `json:"nome"`
+	CodINEP             string `json:"codinep"`
+	Email               string `json:"email"`
+	Telefone            string `json:"telefone"`
+	NomeCoordenador     string `json:"nome_coordenador"`
+	EmailCoordenador    string `json:"email_coordenador"`
+	TelefoneCoordenador string `json:"telefone_coordenador"`
+	TipoEscola          string `json:"tipo_escola"`
+	IDEndereco          int    `json:"idendereco"`
+}
+
+type AlunoResponse struct {
+	IdGlobal    int      `json:"id_global"`
+	IDAluno     int      `json:"id_aluno"`
+	IDEscola    int      `json:"id_escola"`
+	CPF         string   `json:"cpf"`
+	Nome        string   `json:"nome"`
+	SerieAtual  string   `json:"serie_atual"`
+	Genero      string   `json:"genero"`
+	DataNasc    string   `json:"data_nasc"`
+	PerfisAcess []string `json:"perfis_acess"`
 }
