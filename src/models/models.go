@@ -56,17 +56,18 @@ type Request struct {
 }
 
 type EscolaResponse struct {
-	IdGlobal            int    `json:"id_global"`
-	IDEscola            int    `json:"id_escola"`
-	Nome                string `json:"nome"`
-	CodINEP             string `json:"codinep"`
-	Email               string `json:"email"`
-	Telefone            string `json:"telefone"`
-	NomeCoordenador     string `json:"nome_coordenador"`
-	EmailCoordenador    string `json:"email_coordenador"`
-	TelefoneCoordenador string `json:"telefone_coordenador"`
-	TipoEscola          string `json:"tipo_escola"`
-	IDEndereco          int    `json:"idendereco"`
+	IdGlobal            int      `json:"id_global"`
+	IDEscola            int      `json:"id_escola"`
+	Nome                string   `json:"nome"`
+	CodINEP             string   `json:"codinep"`
+	Email               string   `json:"email"`
+	Telefone            string   `json:"telefone"`
+	NomeCoordenador     string   `json:"nome_coordenador"`
+	EmailCoordenador    string   `json:"email_coordenador"`
+	TelefoneCoordenador string   `json:"telefone_coordenador"`
+	TipoEscola          string   `json:"tipo_escola"`
+	IDEndereco          int      `json:"idendereco"`
+	Endereco            Endereco `json:"endereco"`
 }
 
 type AlunoResponse struct {

@@ -391,6 +391,16 @@ func (h *Handler) GetEscolas(c *fiber.Ctx) error {
 			})
 		}
 
+		// Caso contrário, vamos buscar o endereço da escola
+		row = db.QueryRow("SELECT cep, bairro, cidade, estado, rua, numero, complemento FROM endereco WHERE id_endereco = $1", escola.IDEndereco)
+		err = row.Scan(&escola.Endereco.CEP, &escola.Endereco.Bairro, &escola.Endereco.Cidade, &escola.Endereco.Estado, &escola.Endereco.Rua, &escola.Endereco.Numero, &escola.Endereco.Complemento)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter endereço da escola",
+			})
+		}
+
 		return c.Status(fiber.StatusOK).JSON(escola)
 
 	case "petiano":
@@ -408,6 +418,16 @@ func (h *Handler) GetEscolas(c *fiber.Ctx) error {
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 				"message": "Erro ao obter escola",
+			})
+		}
+
+		// Buscar o endereço da escola
+		row = db.QueryRow("SELECT cep, bairro, cidade, estado, rua, numero, complemento FROM endereco WHERE id_endereco = $1", escola.IDEndereco)
+		err = row.Scan(&escola.Endereco.CEP, &escola.Endereco.Bairro, &escola.Endereco.Cidade, &escola.Endereco.Estado, &escola.Endereco.Rua, &escola.Endereco.Numero, &escola.Endereco.Complemento)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter endereço da escola",
 			})
 		}
 
