@@ -18,7 +18,7 @@ seguintes atributos:
 | `PETIANO_USER_PWD` | Senha do usuario de cargo "petiano"         |
 | `ESCOLA_USER_PWD`  | Senha do usuario de cargo "escola"          |
 | `ALUNO_USER_PWD`   | Senha do usuario de cargo "aluno"           |
-| `API_USER_PWD`     | Seanha do usuario usado para funções da API |
+| `API_USER_PWD`     | Senha do usuario usado para funções da API |
 
 Aqui está um exemplo deste arquivo `.env`:
 
