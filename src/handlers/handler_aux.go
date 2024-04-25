@@ -27,7 +27,7 @@ func (h *Handler) getDB(user string) (*sql.DB, error) {
 		// Verificar se a conexão com o banco de dados ainda está ativa
 		if err := db.Ping(); err != nil {
 			// Se a conexão estiver fechada, reabra-a.
-			connectionString := fmt.Sprintf("postgres://%s:1234@localhost:5434/oci_dados?sslmode=disable", user)
+			connectionString := fmt.Sprintf("postgres://%s:%s@localhost:5434/oci_dados?sslmode=disable", user, password)
 			db, err = sql.Open("postgres", connectionString)
 			if err != nil {
 				return nil, err

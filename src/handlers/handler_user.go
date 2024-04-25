@@ -189,7 +189,6 @@ func (h *Handler) CreateEscola(c *fiber.Ctx) error {
 		"id_usuario": idGlobal,
 		"cargo":      newEscola.Cargo,
 	})
-
 }
 
 func (h *Handler) CreateAluno(c *fiber.Ctx) error {
@@ -327,4 +326,244 @@ func (h *Handler) CreateAluno(c *fiber.Ctx) error {
 		"id_usuario": idGlobal,
 		"cargo":      newAluno.Cargo,
 	})
+}
+
+func (h *Handler) GetEscolas(c *fiber.Ctx) error {
+	request := models.Request{}
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Erro ao analisar o corpo de solicitação JSON",
+		})
+	}
+
+	// Verificar se os IDs são válidos
+	if request.IdGlobal <= 0 || request.IdUser <= 0 {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "ID inválido",
+		})
+	}
+
+	// Criar instância de DB
+	db, err := h.getDB("api_user")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	row := db.QueryRow("SELECT cargo FROM usuario WHERE id_usuario = $1", request.IdGlobal)
+
+	var cargo string
+	err = row.Scan(&cargo)
+	if err != nil {
+		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Erro ao obter cargo do usuário",
+		})
+	}
+	db.Close()
+
+	switch cargo {
+	case "escola":
+
+		// Criar instância de DB
+		db, err := h.getDB("escola_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		row := db.QueryRow("SELECT * FROM escola WHERE id_escola = $1", request.IdUser)
+
+		escola := models.EscolaResponse{}
+		err = row.Scan(&escola.IDEscola, &escola.IdGlobal, &escola.CodINEP, &escola.Nome, &escola.IDEndereco, &escola.Email, &escola.Telefone, &escola.NomeCoordenador, &escola.EmailCoordenador, &escola.TelefoneCoordenador, &escola.TipoEscola)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter escola",
+			})
+		}
+
+		// Se o idglobal da requisição (no caso de ser uma escola fazendo a requisição)
+		// for diferente do idglobal da escola que está sendo requisitada, então
+		// a escola não tem permissão para acessar esses dados
+		if escola.IdGlobal != request.IdGlobal {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Você não tem permissão para acessar esses dados",
+			})
+		}
+
+		// Caso contrário, vamos buscar o endereço da escola
+		row = db.QueryRow("SELECT cep, bairro, cidade, estado, rua, numero, complemento FROM endereco WHERE id_endereco = $1", escola.IDEndereco)
+		err = row.Scan(&escola.Endereco.CEP, &escola.Endereco.Bairro, &escola.Endereco.Cidade, &escola.Endereco.Estado, &escola.Endereco.Rua, &escola.Endereco.Numero, &escola.Endereco.Complemento)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter endereço da escola",
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(escola)
+
+	case "petiano":
+		// Criar instância de DB
+		db, err := h.getDB("petiano_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		row := db.QueryRow("SELECT * FROM escola WHERE id_escola = $1", request.IdUser)
+
+		escola := models.EscolaResponse{}
+		err = row.Scan(&escola.IDEscola, &escola.IdGlobal, &escola.CodINEP, &escola.Nome, &escola.IDEndereco, &escola.Email, &escola.Telefone, &escola.NomeCoordenador, &escola.EmailCoordenador, &escola.TelefoneCoordenador, &escola.TipoEscola)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter escola",
+			})
+		}
+
+		// Buscar o endereço da escola
+		row = db.QueryRow("SELECT cep, bairro, cidade, estado, rua, numero, complemento FROM endereco WHERE id_endereco = $1", escola.IDEndereco)
+		err = row.Scan(&escola.Endereco.CEP, &escola.Endereco.Bairro, &escola.Endereco.Cidade, &escola.Endereco.Estado, &escola.Endereco.Rua, &escola.Endereco.Numero, &escola.Endereco.Complemento)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter endereço da escola",
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(escola)
+
+	default:
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Você não tem permissão para acessar esses dados",
+		})
+	}
+}
+
+func (h *Handler) GetAluno(c *fiber.Ctx) error {
+	request := models.Request{}
+	if err := c.BodyParser(&request); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"message": "Erro ao analisar o corpo de solicitação JSON",
+		})
+	}
+
+	// Criar instância de DB
+	db, err := h.getDB("api_user")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	row := db.QueryRow("SELECT cargo FROM usuario WHERE id_usuario = $1", request.IdGlobal)
+	var cargo string
+	err = row.Scan(&cargo)
+	if err != nil {
+		log.Println(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Erro ao obter cargo do usuário",
+		})
+	}
+
+	db.Close()
+
+	switch cargo {
+	case "escola":
+		// Criar instância de DB
+		db, err := h.getDB("escola_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		aluno := models.AlunoResponse{}
+		var perfisAccess string
+		row = db.QueryRow("SELECT * FROM aluno WHERE id_aluno = $1", request.IdUser)
+		err = row.Scan(&aluno.IDAluno, &aluno.IdGlobal, &aluno.IDEscola, &aluno.CPF, &aluno.Nome, &aluno.SerieAtual, &aluno.Genero, &aluno.DataNasc, &perfisAccess)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter aluno",
+			})
+		}
+		aluno.PerfisAcess = strings.Split(perfisAccess, ",")
+
+		var idGlobalEscola int
+		row = db.QueryRow("SELECT id_global FROM escola WHERE id_escola = $1", aluno.IDEscola)
+		err = row.Scan(&idGlobalEscola)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter id_global da escola",
+			})
+		}
+
+		if idGlobalEscola != request.IdGlobal {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Você não tem permissão para acessar esses dados",
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(aluno)
+
+	case "petiano":
+		// Criar instância de DB
+		db, err := h.getDB("petiano_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		aluno := models.AlunoResponse{}
+		var perfisAccess string
+		row = db.QueryRow("SELECT * FROM aluno WHERE id_aluno = $1", request.IdUser)
+		err = row.Scan(&aluno.IDAluno, &aluno.IdGlobal, &aluno.IDEscola, &aluno.CPF, &aluno.Nome, &aluno.SerieAtual, &aluno.Genero, &aluno.DataNasc, &perfisAccess)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter aluno",
+			})
+		}
+		aluno.PerfisAcess = strings.Split(perfisAccess, ",")
+
+		return c.Status(fiber.StatusOK).JSON(aluno)
+
+	case "aluno":
+		if request.IdGlobal != request.IdUser {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Você somente pode acessar seus próprios dados",
+			})
+		}
+
+		// Criar instância de DB
+		db, err := h.getDB("aluno_user")
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer db.Close()
+
+		aluno := models.AlunoResponse{}
+		var perfisAccess string
+		row = db.QueryRow("SELECT * FROM aluno WHERE id_aluno = $1", request.IdUser)
+		err = row.Scan(&aluno.IDAluno, &aluno.IdGlobal, &aluno.IDEscola, &aluno.CPF, &aluno.Nome, &aluno.SerieAtual, &aluno.Genero, &aluno.DataNasc, &perfisAccess)
+		if err != nil {
+			log.Println(err)
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": "Erro ao obter aluno",
+			})
+		}
+		aluno.PerfisAcess = strings.Split(perfisAccess, ",")
+
+		if aluno.IdGlobal != request.IdGlobal {
+			return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+				"message": "Você só tem permisão para acessar seus próprios dados",
+			})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(aluno)
+
+	default:
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"message": "Você não tem permissão para acessar esses dados",
+		})
+	}
 }
